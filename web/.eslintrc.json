@@ -22,6 +22,7 @@
   "rules": {
     "camelcase": ["error"],
     "no-use-before-define": [0],
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-use-before-define": [1],
     "@typescript-eslint/no-empty-function": "off",
     "react/jsx-one-expression-per-line": "off",
