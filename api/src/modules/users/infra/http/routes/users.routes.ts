@@ -1,12 +1,10 @@
 import { Router } from 'express';
 import multer from 'multer';
 import uploadConfig from '@config/upload';
-import { container } from 'tsyringe';
+import { celebrate, Segments, Joi } from 'celebrate';
 
 import UsersAvatarController from '../controllers/UserAvatarController';
 import UsersController from '../controllers/UsersController';
-
-import UsersRepository from '@modules/users/infra/typeorm/repositories/UsersRepository';
 
 import ensureAuthenticated from '../middlewares/ensureAuthenticated';
 
@@ -16,7 +14,17 @@ const userAvatarController = new UsersAvatarController();
 
 const upload = multer(uploadConfig);
 
-usersRouter.post('/', usersController.create);
+usersRouter.post(
+  '/',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      email: Joi.string().email().required(),
+      password: Joi.string().required(),
+    },
+  }),
+  usersController.create,
+);
 
 usersRouter.patch(
   '/avatar',
